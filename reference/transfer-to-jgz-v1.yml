@@ -1,0 +1,132 @@
+openapi: '3.0.2'
+info:
+  title: BabyConnect transfer to JGZ API v1
+  version: '1.0'
+  description: |-
+    > The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL
+    > NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED",  "MAY", and
+    > "OPTIONAL" in this document are to be interpreted as described in
+    > RFC 2119.
+
+    A server implementing this API MUST expose it only with HTTPS, using
+    TLS protocols considered safe for use (Goed) by the NCSC, with a
+    valid and trusted certificate.
+paths:
+  /dossier:
+    post:
+      summary: ''
+      operationId: post-dossier
+      responses:
+        '202':
+          description: Accepted. The request was accepted for further processing. The server MUST return a response id for tracking.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: object
+                    properties:
+                      root:
+                        type: string
+                      extension:
+                        type: string
+              examples:
+                AcceptedResponse1:
+                  value:
+                    id:
+                      root: 1.3.6.1.4.1.not.a.real.oid
+                      extension: AD32C5E4-9C11-4E0F-A0B8-1E4262413E8E
+          headers: {}
+        '400': 
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          description: 'Unauthorized. The request does not carry valid authorization (signed JWT), or given authorization has expired. Request should be re-issued with proper authorization. The response SHOULD include `errorMessage` and `id`, as specified'
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                x-examples:
+                  example-1:
+                    errorMessage: The provided JWT has expired
+                    id:
+                      root: 1.3.6.1.4.1.not.a.real.oid.errors
+                      extension: F25ED724-C61F-4FD6-90C2-9CE012025550
+                properties:
+                  errorMessage:
+                    type: string
+                  id:
+                    type: object
+                    required:
+                      - root
+                      - extension
+                    properties:
+                      root:
+                        type: string
+                      extension:
+                        type: string
+                required:
+                  - errorMessage
+                  - id
+              examples:
+                example-1:
+                  value: {}
+        '500':
+          description: 'Internal Server Error. The server was not able to process the request. Additional error information MAY be provided given the following schema, but is not required, as these errors may or may not originate from the server software.'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+        '503':
+          description: Service Unavailable. Indicates the server cannot currently accept requests. Clients should retry requests at a later time if possible. Additional details MAY be given with the following schema but is not required as these responses may originate from intermediate software.
+      description: |-
+        Send a dossier as CareProvisionRequest.
+
+        A request id and a dossier number is included in the request and can be used by the recieving end as reference id.
+
+        Note that this operation is *NOT* idempotent, submitting the same dossier multiple times will be interpret as multiple dossiers.
+      requestBody:
+        content:
+          application/xml: {}
+        description: 'MUST be an HL7v3 `<CareProvisionRequest>` as defined in https://decor.nictiz.nl/pub/jeugdgezondheidszorg/jgz-html-20230613T223721/tmp-2.16.840.1.113883.2.4.6.10.100.10000-2020-05-27T000000.html'
+components:
+  schemas: {}
+  responses:
+    BadRequest:
+      description: 'Bad Request, the request is not valid and could not be accepted by the server. The server SHOULD provide an error message indicating why the request was rejected, and an `id` object to track the response.'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errorMessage:
+                type: string
+              id:
+                type: object
+                description: An oid
+                properties:
+                  root:
+                    type: string
+                  extension:
+                    type: string
+          examples:
+            BadXMLExample:
+              value:
+                errorMessage: The submittted dossier is not a wellformed XML-document
+                id:
+                  root: 1.3.6.1.4.1.not.a.real.oid.errors
+                  extension: 84B563E3-5309-4E56-B16A-F56DD143D67E
+  securitySchemes:
+    Signed-JWT:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: |-
+        Authentication is based on a signed JWT provided as 
+        `Bearer` in HTTP `Authorization` header. The JWT MUST be signed with the 
+        public/private key pair that is previously agreed upon.
+        How this (public) key is distributed is not in scope of this document.
+security:
+  - Signed-JWT: []
