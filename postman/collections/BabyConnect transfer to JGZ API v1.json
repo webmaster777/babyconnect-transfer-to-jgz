@@ -1,0 +1,311 @@
+{
+	"info": {
+		"_postman_id": "8af43d60-6e11-456c-8943-2339fcad2202",
+		"name": "BabyConnect transfer to JGZ API v1",
+		"description": "> The key words \"MUST\", \"MUST NOT\", \"REQUIRED\", \"SHALL\", \"SHALL\n> NOT\", \"SHOULD\", \"SHOULD NOT\", \"RECOMMENDED\",  \"MAY\", and\n> \"OPTIONAL\" in this document are to be interpreted as described in\n> RFC 2119.\n\nA server implementing this API MUST expose it only with HTTPS, using\nTLS protocols considered safe for use (Goed) by the NCSC, with a\nvalid and trusted certificate.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_uid": "11302057-8af43d60-6e11-456c-8943-2339fcad2202"
+	},
+	"item": [
+		{
+			"name": "dossier",
+			"item": [
+				{
+					"name": "post-dossier",
+					"id": "a82cf07e-3661-409e-aedc-0fd87035eb7a",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/xml"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n",
+							"options": {
+								"raw": {
+									"headerFamily": "xml",
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/dossier",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"dossier"
+							]
+						},
+						"description": "Send a dossier as CareProvisionRequest.\n\nA request id and a dossier number is included in the request and can be used by the recieving end as reference id.\n\nNote that this operation is *NOT* idempotent, submitting the same dossier multiple times will be interpret as multiple dossiers."
+					},
+					"response": [
+						{
+							"id": "d1931ce6-8fda-425a-b015-65ed39e9acc8",
+							"name": "Accepted. The request was accepted for further processing. The server MUST return a response id for tracking.",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/xml"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n",
+									"options": {
+										"raw": {
+											"headerFamily": "xml",
+											"language": "xml"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/dossier",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"dossier"
+									]
+								},
+								"description": "Send a dossier as CareProvisionRequest.\n\nA request id and a dossier number is included in the request and can be used by the recieving end as reference id.\n\nNote that this operation is *NOT* idempotent, submitting the same dossier multiple times will be interpret as multiple dossiers."
+							},
+							"status": "Accepted",
+							"code": 202,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"id\": {\n    \"root\": \"<string>\",\n    \"extension\": \"<string>\"\n  }\n}"
+						},
+						{
+							"id": "aa0f5309-9cf4-432a-add1-f691224ae9f0",
+							"name": "Bad Request, the request is not valid and could not be accepted by the server. The server SHOULD provide an error message indicating why the request was rejected, and an `id` object to track the response.",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/xml"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n",
+									"options": {
+										"raw": {
+											"headerFamily": "xml",
+											"language": "xml"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/dossier",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"dossier"
+									]
+								},
+								"description": "Send a dossier as CareProvisionRequest.\n\nA request id and a dossier number is included in the request and can be used by the recieving end as reference id.\n\nNote that this operation is *NOT* idempotent, submitting the same dossier multiple times will be interpret as multiple dossiers."
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"errorMessage\": \"<string>\",\n  \"id\": {\n    \"root\": \"<string>\",\n    \"extension\": \"<string>\"\n  }\n}"
+						},
+						{
+							"id": "5b23a71c-693a-4c3b-a8ee-305f0727dbb5",
+							"name": "Unauthorized. The request does not carry valid authorization (signed JWT), or given authorization has expired. Request should be re-issued with proper authorization. The response SHOULD include `errorMessage` and `id`, as specified",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/xml"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n",
+									"options": {
+										"raw": {
+											"headerFamily": "xml",
+											"language": "xml"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/dossier",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"dossier"
+									]
+								},
+								"description": "Send a dossier as CareProvisionRequest.\n\nA request id and a dossier number is included in the request and can be used by the recieving end as reference id.\n\nNote that this operation is *NOT* idempotent, submitting the same dossier multiple times will be interpret as multiple dossiers."
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"errorMessage\": \"<string>\",\n  \"id\": {\n    \"root\": \"<string>\",\n    \"extension\": \"<string>\"\n  }\n}"
+						},
+						{
+							"id": "2ac0e76b-d556-4bbb-a011-be063c3d815d",
+							"name": "Internal Server Error. The server was not able to process the request. Additional error information MAY be provided given the following schema, but is not required, as these errors may or may not originate from the server software.",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/xml"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n",
+									"options": {
+										"raw": {
+											"headerFamily": "xml",
+											"language": "xml"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/dossier",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"dossier"
+									]
+								},
+								"description": "Send a dossier as CareProvisionRequest.\n\nA request id and a dossier number is included in the request and can be used by the recieving end as reference id.\n\nNote that this operation is *NOT* idempotent, submitting the same dossier multiple times will be interpret as multiple dossiers."
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{}"
+						},
+						{
+							"id": "f45f3065-b8b2-44c1-abb9-66ed0144e2f1",
+							"name": "Service Unavailable. Indicates the server cannot currently accept requests. Clients should retry requests at a later time if possible. Additional details MAY be given with the following schema but is not required as these responses may originate from inte",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/xml"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n",
+									"options": {
+										"raw": {
+											"headerFamily": "xml",
+											"language": "xml"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/dossier",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"dossier"
+									]
+								},
+								"description": "Send a dossier as CareProvisionRequest.\n\nA request id and a dossier number is included in the request and can be used by the recieving end as reference id.\n\nNote that this operation is *NOT* idempotent, submitting the same dossier multiple times will be interpret as multiple dossiers."
+							},
+							"status": "Service Unavailable",
+							"code": 503,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			],
+			"id": "f08a5f61-ea9e-4240-8941-b6dc02145896"
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{bearerToken}}",
+				"type": "string"
+			}
+		]
+	},
+	"variable": [
+		{
+			"id": "fa7835fb-9446-4c4a-b9cf-5fc409b62661",
+			"key": "baseUrl",
+			"value": "/"
+		}
+	]
+}

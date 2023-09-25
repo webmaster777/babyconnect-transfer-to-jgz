@@ -1,16 +1,19 @@
 openapi: '3.0.2'
 info:
   title: BabyConnect transfer to JGZ API v1
-  version: '1.0'
+  version: '0.1.0'
   description: |-
+    ⚠️ This document has a DRAFT status!
+
     > The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL
     > NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED",  "MAY", and
     > "OPTIONAL" in this document are to be interpreted as described in
     > RFC 2119.
 
     A server implementing this API MUST expose it only with HTTPS, using
-    TLS protocols considered safe for use (Goed) by the NCSC, with a
-    valid and trusted certificate.
+    TLS protocols considered safe for use (at least Voldoende, Goed preferred)
+    [by the NCSC](https://www.ncsc.nl/documenten/publicaties/2021/januari/19/ict-beveiligingsrichtlijnen-voor-transport-layer-security-2.1),
+    with a valid and publicly trusted certificate.
 paths:
   /dossier:
     post:
@@ -18,7 +21,11 @@ paths:
       operationId: post-dossier
       responses:
         '202':
-          description: Accepted. The request was accepted for further processing. The server MUST return a response id for tracking.
+          description: |-
+            Accepted. 
+            
+            The request was accepted for further processing. 
+            The server MUST return a response id for tracking.
           content:
             application/json:
               schema:
@@ -41,7 +48,12 @@ paths:
         '400': 
           $ref: '#/components/responses/BadRequest'
         '401':
-          description: 'Unauthorized. The request does not carry valid authorization (signed JWT), or given authorization has expired. Request should be re-issued with proper authorization. The response SHOULD include `errorMessage` and `id`, as specified'
+          description: |-
+            Unauthorized. 
+            
+            The request does not carry valid authorization (signed JWT), 
+            or given authorization has expired. Request should be re-issued with proper 
+            authorization. The response SHOULD include `errorMessage` and `id`, as specified
           content:
             application/json:
               schema:
@@ -73,20 +85,25 @@ paths:
                 example-1:
                   value: {}
         '500':
-          description: 'Internal Server Error. The server was not able to process the request. Additional error information MAY be provided given the following schema, but is not required, as these errors may or may not originate from the server software.'
-          content:
-            application/json:
-              schema:
-                type: object
-                properties: {}
+          $ref: '#/components/responses/ServerError'
         '503':
-          description: Service Unavailable. Indicates the server cannot currently accept requests. Clients should retry requests at a later time if possible. Additional details MAY be given with the following schema but is not required as these responses may originate from intermediate software.
+          description: |-
+            Service Unavailable. 
+            
+            Indicates the server cannot currently accept requests. 
+            Clients should retry requests at a later time if possible. 
+            Additional details MAY be given with the following schema
+            but is not required as these responses may originate from
+            intermediate software.
       description: |-
-        Send a dossier as CareProvisionRequest.
+        Send a dossier as `<CareProvisionRequest>`.
 
-        A request id and a dossier number is included in the request and can be used by the recieving end as reference id.
+        A request id and a dossier number is included in the request 
+        and can be used by the recieving end as reference id.
 
-        Note that this operation is *NOT* idempotent, submitting the same dossier multiple times will be interpret as multiple dossiers.
+        Note that this operation is *NOT* idempotent, submitting the
+        same dossier multiple times will be interpret as sending 
+        multiple dossiers.
       requestBody:
         content:
           application/xml: {}
@@ -94,6 +111,29 @@ paths:
 components:
   schemas: {}
   responses:
+    ServerError:
+      description: |-
+        Internal Server Error. 
+        
+        The server was not able to process the request. Additional error 
+        information MAY be provided given the following schema, but is 
+        *not required*, as these errors may or may not originate from the 
+        server software.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errorMessage:
+                type: string
+              id:
+                type: object
+                description: An oid
+                properties:
+                  root:
+                    type: string
+                  extension:
+                    type: string
     BadRequest:
       description: 'Bad Request, the request is not valid and could not be accepted by the server. The server SHOULD provide an error message indicating why the request was rejected, and an `id` object to track the response.'
       content:
